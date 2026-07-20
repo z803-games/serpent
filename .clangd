@@ -1,0 +1,6 @@
+CompileFlags:
+  Remove: ["-W*", "-Winvalid-pch"]
+Index:
+  Background: Skip
+Diagnostics:
+  Suppress: "*"
