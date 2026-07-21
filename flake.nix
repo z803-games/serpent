@@ -12,11 +12,6 @@
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
 
-      gbToolsEnabled = let
-        flagFile = self + "/.gbtools";
-      in
-        builtins.pathExists flagFile && builtins.readFile flagFile != "";
-
       gbdk = pkgs.stdenv.mkDerivation {
         pname = "gbdk";
         version = "4.5.0";
@@ -43,65 +38,59 @@
         '';
       };
 
-      gb-tools =
-        if gbToolsEnabled && pkgs.stdenv.isLinux
-        then let
-          gbtd-src = pkgs.fetchzip {
-            name = "gbtd";
-            url = "https://www.devrs.com/gb/hmgd/gbtd22.zip";
-            sha256 = "sha256-UFvGgSN9clPW68WvVUadM63uvJeJCvGoWKFyI+/yOc8=";
-            stripRoot = false;
-          };
+      gbtd-src = pkgs.fetchzip {
+        name = "gbtd";
+        url = "https://www.devrs.com/gb/hmgd/gbtd22.zip";
+        sha256 = "sha256-UFvGgSN9clPW68WvVUadM63uvJeJCvGoWKFyI+/yOc8=";
+        stripRoot = false;
+      };
 
-          gbmb-src = pkgs.fetchzip {
-            name = "gbmb";
-            url = "https://www.devrs.com/gb/hmgd/gbmb18.zip";
-            sha256 = "sha256-tS14jkRHMg0yLyEi/RyYNcRZqjHk3mANosI+ZvFmwAM=";
-            stripRoot = false;
-          };
-        in
-          pkgs.stdenvNoCC.mkDerivation {
-            pname = "gbtd-gbmb";
-            version = "unstable";
+      gbmb-src = pkgs.fetchzip {
+        name = "gbmb";
+        url = "https://www.devrs.com/gb/hmgd/gbmb18.zip";
+        sha256 = "sha256-tS14jkRHMg0yLyEi/RyYNcRZqjHk3mANosI+ZvFmwAM=";
+        stripRoot = false;
+      };
 
-            srcs = [gbtd-src gbmb-src];
-            sourceRoot = ".";
+      gb-tools = pkgs.stdenvNoCC.mkDerivation {
+        pname = "gbtd-gbmb";
+        version = "unstable";
 
-            nativeBuildInputs = [pkgs.makeWrapper pkgs.unzip];
+        srcs = [gbtd-src gbmb-src];
+        sourceRoot = ".";
 
-            unpackPhase = ''
-              mkdir -p gbtd gbmb
-              cp -r ${gbtd-src}/* gbtd/
-              cp -r ${gbmb-src}/* gbmb/
-            '';
+        nativeBuildInputs = [pkgs.makeWrapper pkgs.unzip];
 
-            installPhase = ''
-              mkdir -p $out/share/gb-tools/gbtd
-              mkdir -p $out/share/gb-tools/gbmb
+        unpackPhase = ''
+          mkdir -p gbtd gbmb
+          cp -r ${gbtd-src}/* gbtd/
+          cp -r ${gbmb-src}/* gbmb/
+        '';
 
-              cp -r gbtd/* $out/share/gb-tools/gbtd/
-              cp -r gbmb/* $out/share/gb-tools/gbmb/
+        installPhase = ''
+          mkdir -p $out/share/gb-tools/gbtd
+          mkdir -p $out/share/gb-tools/gbmb
 
-              mkdir -p $out/bin
+          cp -r gbtd/* $out/share/gb-tools/gbtd/
+          cp -r gbmb/* $out/share/gb-tools/gbmb/
 
-              makeWrapper ${pkgs.wine-wayland}/bin/wine $out/bin/gbtd \
-                --add-flags "$out/share/gb-tools/gbtd/gbtd.exe"
+          mkdir -p $out/bin
 
-              makeWrapper ${pkgs.wine-wayland}/bin/wine $out/bin/gbmb \
-                --add-flags "$out/share/gb-tools/gbmb/gbmb.exe"
-            '';
-          }
-        else null;
+          makeWrapper ${pkgs.wine-wayland}/bin/wine $out/bin/gbtd \
+            --add-flags "$out/share/gb-tools/gbtd/gbtd.exe"
+
+          makeWrapper ${pkgs.wine-wayland}/bin/wine $out/bin/gbmb \
+            --add-flags "$out/share/gb-tools/gbmb/gbmb.exe"
+        '';
+      };
     in {
-      packages.default =
-        if gb-tools != null
-        then gb-tools
-        else pkgs.emptyDirectory;
+      packages.default = gb-tools;
 
       devShells.default = pkgs.mkShell {
-        buildInputs =
-          pkgs.lib.optional (gb-tools != null) gb-tools
-          ++ pkgs.lib.optional (gb-tools != null) pkgs.wine-wayland;
+        buildInputs = [
+          gb-tools
+          pkgs.wine-wayland
+        ];
 
         packages = [
           gbdk

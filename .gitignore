@@ -1,4 +1,3 @@
 .direnv/
 build/
 scripts/.wslmake.sh
-.gbtools
