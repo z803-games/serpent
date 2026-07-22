@@ -24,7 +24,7 @@ nix develop
 
 #### Building and Running in the Nix Environment
 
-To build the program in the Nix environment, run:
+To build the program in the Nix environment, first stage all files you want to build. Then, run the command:
 
 ```bash
 nix build
