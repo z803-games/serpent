@@ -118,7 +118,7 @@
           pkgs.gnumake
           pkgs.mbake
           pkgs.gearboy
-          pkgs.bear
+          pkgs.libresprite
         ];
 
         shellHook = ''
