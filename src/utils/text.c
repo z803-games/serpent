@@ -45,7 +45,7 @@ uint8_t get_character_vram_tile(char character) {
     return vram_tile;
 }
 
-uint8_t draw_text(char *text, uint8_t start_tile_x, uint8_t start_tile_y) {
+uint8_t *draw_text(char *text, uint8_t start_tile_x, uint8_t start_tile_y) {
     uint8_t *vram_address = get_bkg_xy_addr(start_tile_x, start_tile_y);
 
     for (uint8_t i = 0; text[i] != '\0'; ++i) {
