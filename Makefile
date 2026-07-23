@@ -16,10 +16,13 @@ LINKOBJS := $(BUILD)/set_data.o \
             $(BUILD)/get_addr.o \
             $(BUILD)/fill_rect.o \
             $(BUILD)/fill_rect_bk.o \
+            $(BUILD)/cgb_palettes.o
 
 ifdef GBDK_DEBUG
 LCCFLAGS += -debug -v
 endif
+
+LCCFLAGS += -Wm-yc # run on both DMG and CGB
 
 INCLUDES := -Ires
 
