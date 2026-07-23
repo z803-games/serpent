@@ -10,13 +10,17 @@ LCC := $(GBDK_HOME)/bin/lcc
 GBLIB := $(GBDK_HOME)/lib/gb/gb.lib
 
 LINKOBJS := $(BUILD)/set_data.o \
-            $(BUILD)/sfr.o \
-            $(BUILD)/delay.o \
-            $(BUILD)/set_tile.o \
-            $(BUILD)/get_addr.o \
-            $(BUILD)/fill_rect.o \
-            $(BUILD)/fill_rect_bk.o \
-            $(BUILD)/cgb_palettes.o
+						$(BUILD)/sfr.o \
+						$(BUILD)/delay.o \
+						$(BUILD)/set_bk_t.o \
+						$(BUILD)/set_xy_t.o \
+						$(BUILD)/set_tile.o \
+						$(BUILD)/get_addr.o \
+						$(BUILD)/fill_rect.o \
+						$(BUILD)/fill_rect_bk.o \
+						$(BUILD)/cgb_palettes.o \
+						$(BUILD)/metasprites.o \
+						$(BUILD)/metasprites_hide_spr.o
 
 ifdef GBDK_DEBUG
 LCCFLAGS += -debug -v
