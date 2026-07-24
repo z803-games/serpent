@@ -28,7 +28,7 @@ endif
 
 LCCFLAGS += -Wm-yc # run on both DMG and CGB
 
-INCLUDES := -Ires
+INCLUDES := -Isrc -Ires
 
 SRC_C := $(shell find src -name '*.c' 2>/dev/null)
 SRC_S := $(shell find src -name '*.s' 2>/dev/null)
