@@ -85,7 +85,7 @@ uint8_t draw_sprite_text_8x8(const char *text, uint8_t start_x, uint8_t start_y,
 
         current_sprite += move_metasprite_ex(
             yarara_font_8x8_metasprites[glyph_index], FONT_1_BASE_TILE,
-            palette_number, current_sprite, x + 8, start_y + 24);
+            palette_number, current_sprite, x, start_y);
 
         x += 8;
     }
