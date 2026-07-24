@@ -19,16 +19,18 @@ void draw_menu_background(void) {
     set_bkg_tiles(0, 0, 20, 18, menu_background_map);
 }
 
-uint8_t draw_menu_logo(uint8_t sprite_idx) {
+uint8_t draw_menu_logo(uint8_t sprite_idx, uint8_t start_x, uint8_t start_y) {
     uint8_t current_sprite = sprite_idx;
 
     current_sprite +=
         move_metasprite_ex(orochi_jp_16x16_metasprites[0], FONT_2_BASE_TILE, 1,
-                           current_sprite, 52, 40); // 大
-    current_sprite +=
-        move_metasprite_ex(orochi_jp_16x16_metasprites[1], FONT_2_BASE_TILE, 1,
-                           current_sprite, 68, 40); // 蛇
-    current_sprite = draw_sprite_text_8x8("OROCHI", 80, 20, current_sprite, 1);
+                           current_sprite, start_x, start_y); // 大
+    current_sprite += move_metasprite_ex(
+        orochi_jp_16x16_metasprites[1], FONT_2_BASE_TILE, 1, current_sprite,
+        start_x + 16, start_y); // 蛇
+                                // +16 to next tile
+    current_sprite = draw_sprite_text_8x8("OROCHI", start_x + 36, start_y - 4,
+                                          current_sprite, 1);
 
     return current_sprite;
 }
@@ -47,30 +49,23 @@ void load_menu(void) {
     SHOW_SPRITES;
 }
 
-void logo_animation(void){
-    for (int spriteNum = 0; spriteNum<=9; spriteNum++){
-        move_sprite(spriteNum, (44+(spriteNum*8)) + ((spriteNum > 3) ? 8 : 0), 0);
-    }
-    for (int spriteNum = 0; spriteNum<=9; spriteNum++){
-        if (spriteNum < 4){
-            for (int i = 0; i <= 16; i++){
-                scroll_sprite(spriteNum, 0, 2);           
-                vsync();
-            }
-        } else{
-            for (int i = 0; i <= 20; i++){
-                scroll_sprite(spriteNum, 0, 2);           
-                vsync();
-            }
-    }
+void slide_down_logo(void) {
+    for (uint8_t sprite_idx = 0; sprite_idx <= 9; ++sprite_idx) {
+        for (uint8_t _ = 0; _ <= (sprite_idx < 4 ? 8 : 10); ++_) {
+            scroll_sprite(sprite_idx, 0, 4);
+            vsync();
+        }
     }
 }
 
 uint8_t run_menu_loop(uint8_t sprite_idx) {
     draw_menu_background();
-    uint8_t current_sprite = draw_menu_logo(sprite_idx);
 
-    logo_animation();
+    // The starting x-position is 52, which allows the logo to be properly
+    // centered. The starting y-position of the logo is 0 because we want to
+    // slide the logo down after.
+    uint8_t current_sprite = draw_menu_logo(sprite_idx, 52, 0);
+    slide_down_logo();
 
     /* This loop should eventually break on certain conditions.
      * (For example, when the user enters a level.)
