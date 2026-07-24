@@ -47,9 +47,30 @@ void load_menu(void) {
     SHOW_SPRITES;
 }
 
+void logo_animation(void){
+    for (int spriteNum = 0; spriteNum<=9; spriteNum++){
+        move_sprite(spriteNum, (44+(spriteNum*8)) + ((spriteNum > 3) ? 8 : 0), 0);
+    }
+    for (int spriteNum = 0; spriteNum<=9; spriteNum++){
+        if (spriteNum < 4){
+            for (int i = 0; i <= 16; i++){
+                scroll_sprite(spriteNum, 0, 2);           
+                vsync();
+            }
+        } else{
+            for (int i = 0; i <= 20; i++){
+                scroll_sprite(spriteNum, 0, 2);           
+                vsync();
+            }
+    }
+    }
+}
+
 uint8_t run_menu_loop(uint8_t sprite_idx) {
     draw_menu_background();
     uint8_t current_sprite = draw_menu_logo(sprite_idx);
+
+    logo_animation();
 
     /* This loop should eventually break on certain conditions.
      * (For example, when the user enters a level.)
