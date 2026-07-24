@@ -9,7 +9,6 @@
 #include <stdint.h>
 
 void load_menu(void) {
-    HIDE_BKG;
     SPRITES_8x16;
 
     hide_sprites_range(0, MAX_HARDWARE_SPRITES);
@@ -18,7 +17,6 @@ void load_menu(void) {
     load_yarara_font_8x8();
     load_orochi_jp_16x16();
 
-    SHOW_BKG;
     SHOW_SPRITES;
 }
 
@@ -48,11 +46,12 @@ void load_menu_background(void) {
                  menu_background_tiles); // load menu bkg tiles into VRAM
     set_bkg_palette(
         0, menu_background_PALETTE_COUNT,
-        menu_background_palettes); // set palette 0 to the menu bkg palette
+        menu_background_palettes); // set palette 0 to the menu bkg palettes
 }
 
 void draw_menu_background(void) {
     set_bkg_tiles(0, 0, 20, 18, menu_background_map);
+    set_bkg_attributes(0, 0, 20, 18, menu_background_map_attributes);
 }
 
 uint8_t draw_menu_logo(uint8_t sprite_idx, uint8_t start_x, uint8_t start_y) {
