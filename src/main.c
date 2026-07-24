@@ -27,6 +27,8 @@ void main(void) {
     DISPLAY_OFF;
     HIDE_BKG;
 
+    SPRITES_8x16;
+
     hide_sprites_range(0, MAX_HARDWARE_SPRITES);
 
     load_menu_background();

@@ -6,35 +6,49 @@
 #include <stdint.h>
 
 uint8_t get_glyph_index(char character) {
-    if (character >= 'a' && character <= 'z')
-        return character - 'a';
-    if (character >= 'A' && character <= 'Z')
-        return character - 'A';
-    if (character >= '0' && character <= '9')
-        return (character - '0') + 26;
+    uint8_t index;
 
-    switch (character) {
-    case '!':
-        return 36;
-    case ':':
-        return 37;
-    case '?':
-        return 38;
-    case '\\':
-        return 39;
-    case '=':
-        return 40;
-    case ',':
-        return 41;
-    case '.':
-        return 42;
-    case '<':
-        return 43;
-    case '>':
-        return 44;
+    if (character >= 'a' && character <= 'z')
+        index = character - 'a';
+    else if (character >= 'A' && character <= 'Z')
+        index = character - 'A';
+    else if (character >= '0' && character <= '9')
+        index = (character - '0') + 26;
+    else {
+        switch (character) {
+        case '!':
+            index = 36;
+            break;
+        case ':':
+            index = 37;
+            break;
+        case '?':
+            index = 38;
+            break;
+        case '\\':
+            index = 39;
+            break;
+        case '=':
+            index = 40;
+            break;
+        case ',':
+            index = 41;
+            break;
+        case '.':
+            index = 42;
+            break;
+        case '<':
+            index = 43;
+            break;
+        case '>':
+            index = 44;
+            break;
+        default:
+            return 0xFF;
+        }
     }
 
-    return 0xFF; // no glyph for this character
+    return index * 2 + 1;
 }
 
 uint8_t draw_sprite_text_8x8(const char *text, uint8_t start_x, uint8_t start_y,
@@ -49,9 +63,8 @@ uint8_t draw_sprite_text_8x8(const char *text, uint8_t start_x, uint8_t start_y,
             continue;
 
         current_sprite += move_metasprite_ex(
-            yarara_font_8x8_metasprites[FONT8_BASE_TILE + glyph_index],
-            FONT8_BASE_TILE, palette_number, current_sprite, x + 8,
-            start_y + 24);
+            yarara_font_8x8_metasprites[glyph_index], FONT8_BASE_TILE,
+            palette_number, current_sprite, x + 8, start_y + 24);
 
         x += 8;
     }
