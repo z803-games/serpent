@@ -1,3 +1,4 @@
+#include "views/menu.h"
 #include "backgrounds/menu_background.h"
 #include "fonts/orochi_jp_16x16.h"
 #include "utils/text.h"
@@ -6,6 +7,41 @@
 #include <gb/hardware.h>
 #include <gb/metasprites.h>
 #include <stdint.h>
+
+void load_menu(void) {
+    HIDE_BKG;
+    SPRITES_8x16;
+
+    hide_sprites_range(0, MAX_HARDWARE_SPRITES);
+
+    load_menu_background();
+    load_yarara_font_8x8();
+    load_orochi_jp_16x16();
+
+    SHOW_BKG;
+    SHOW_SPRITES;
+}
+
+void run_menu_loop(uint8_t *sprite_idx) {
+    draw_menu_background();
+
+    // The starting x-position is 52, which allows the logo to be properly
+    // centered. The starting y-position of the logo is 0 because we want to
+    // slide the logo down after.
+    uint8_t initial_sprite_idx = *sprite_idx;
+    *sprite_idx = draw_menu_logo(*sprite_idx, 52, 0);
+    slide_down_logo(32, 6, initial_sprite_idx, *sprite_idx);
+
+    /* This loop should eventually break on certain conditions.
+     * (For example, when the user enters a level.)
+     *
+     * Omitted for now because there is nothing to loop at the moment. And, of
+     * course, we do want the function to return.
+     */
+    // while (1) {
+    //     vsync();
+    // }
+}
 
 void load_menu_background(void) {
     set_bkg_data(0, menu_background_TILE_COUNT,
@@ -35,20 +71,6 @@ uint8_t draw_menu_logo(uint8_t sprite_idx, uint8_t start_x, uint8_t start_y) {
     return current_sprite;
 }
 
-void load_menu(void) {
-    HIDE_BKG;
-    SPRITES_8x16;
-
-    hide_sprites_range(0, MAX_HARDWARE_SPRITES);
-
-    load_menu_background();
-    load_yarara_font_8x8();
-    load_orochi_jp_16x16();
-
-    SHOW_BKG;
-    SHOW_SPRITES;
-}
-
 void slide_down_logo(uint8_t distance_y, uint8_t speed,
                      uint8_t start_sprite_idx, uint8_t end_sprite_idx) {
     for (uint8_t current_sprite = start_sprite_idx;
@@ -76,25 +98,4 @@ void slide_down_logo(uint8_t distance_y, uint8_t speed,
             vsync();
         }
     }
-}
-
-void run_menu_loop(uint8_t *sprite_idx) {
-    draw_menu_background();
-
-    // The starting x-position is 52, which allows the logo to be properly
-    // centered. The starting y-position of the logo is 0 because we want to
-    // slide the logo down after.
-    uint8_t initial_sprite_idx = *sprite_idx;
-    *sprite_idx = draw_menu_logo(*sprite_idx, 52, 0);
-    slide_down_logo(32, 6, initial_sprite_idx, *sprite_idx);
-
-    /* This loop should eventually break on certain conditions.
-     * (For example, when the user enters a level.)
-     *
-     * Omitted for now because there is nothing to loop at the moment. And, of
-     * course, we do want the function to return.
-     */
-    // while (1) {
-    //     vsync();
-    // }
 }
