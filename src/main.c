@@ -13,7 +13,5 @@ void main(void) {
 
     DISPLAY_ON;
 
-    SHOW_SPRITES;
-
     run_menu_loop(&current_sprite);
 }
