@@ -1,9 +1,16 @@
 #pragma once
 
+#include "fonts/yarara_font_8x8.h"
+
 #include <stdbool.h>
 #include <stdint.h>
 
-#define FONT8_BASE_TILE 1
+#define FONT_1_BASE_TILE 1
+#define FONT_2_BASE_TILE (FONT_1_BASE_TILE + yarara_font_8x8_TILE_COUNT + 1)
+
+/** A blank metasprite. */
+static const metasprite_t blank_metasprite[] = {
+    METASPR_ITEM(-4, -4, 0, S_PAL(0)), METASPR_TERM};
 
 /**
  * Get the sequential glyph index (0-based) of a character within the

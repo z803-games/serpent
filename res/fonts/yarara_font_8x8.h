@@ -14,7 +14,7 @@
 #define yarara_font_8x8_TILE_H 8
 #define yarara_font_8x8_WIDTH 8
 #define yarara_font_8x8_HEIGHT 8
-#define yarara_font_8x8_TILE_COUNT 90
+#define yarara_font_8x8_TILE_COUNT 94
 #define yarara_font_8x8_PALETTE_COUNT 1
 #define yarara_font_8x8_COLORS_PER_PALETTE 4
 #define yarara_font_8x8_TOTAL_COLORS 4
@@ -22,11 +22,11 @@
 #define yarara_font_8x8_PIVOT_Y 4
 #define yarara_font_8x8_PIVOT_W 8
 #define yarara_font_8x8_PIVOT_H 8
-extern const metasprite_t *const yarara_font_8x8_metasprites[90];
+extern const metasprite_t *const yarara_font_8x8_metasprites[94];
 
 BANKREF_EXTERN(yarara_font_8x8)
 
 extern const palette_color_t yarara_font_8x8_palettes[4];
-extern const uint8_t yarara_font_8x8_tiles[1440];
+extern const uint8_t yarara_font_8x8_tiles[1504];
 
 #endif

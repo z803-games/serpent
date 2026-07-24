@@ -43,12 +43,18 @@ uint8_t get_glyph_index(char character) {
         case '>':
             index = 44;
             break;
+        case '大':
+            index = 45;
+            break;
+        case '蛇':
+            index = 46;
+            break;
         default:
             return 0xFF;
         }
     }
 
-    return index * 2 + 1;
+    return index;
 }
 
 uint8_t draw_sprite_text_8x8(const char *text, uint8_t start_x, uint8_t start_y,
@@ -62,8 +68,10 @@ uint8_t draw_sprite_text_8x8(const char *text, uint8_t start_x, uint8_t start_y,
         if (glyph_index == 0xFF)
             continue;
 
+        glyph_index += glyph_index + 1;
+
         current_sprite += move_metasprite_ex(
-            yarara_font_8x8_metasprites[glyph_index], FONT8_BASE_TILE,
+            yarara_font_8x8_metasprites[glyph_index], FONT_1_BASE_TILE,
             palette_number, current_sprite, x + 8, start_y + 24);
 
         x += 8;
