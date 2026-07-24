@@ -15,5 +15,5 @@ void main(void) {
 
     SHOW_SPRITES;
 
-    current_sprite = run_menu_loop(current_sprite);
+    run_menu_loop(&current_sprite);
 }

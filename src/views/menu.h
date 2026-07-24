@@ -22,12 +22,21 @@ uint8_t draw_menu_logo(uint8_t sprite_idx, uint8_t start_x, uint8_t start_y);
 /** Load the menu and its resources. */
 void load_menu(void);
 
-/** Slide down the logo. */
-void slide_down_logo(void);
+/**
+ * Slide down the logo a given distance at a given speed.
+ *
+ * @param distance_y        The distance, in pixels, to slide down.
+ * @param speed             The speed, in pixels per frame, at which the logo
+ * slides down.
+ * @param start_sprite_idx  The sprite index of the first logo sprite.
+ * @param end_sprite_idx    The sprite index of the last logo sprite.
+ */
+void slide_down_logo(uint8_t distance_y, uint8_t speed,
+                     uint8_t start_sprite_idx, uint8_t end_sprite_idx);
 
 /**
  * Run the menu loop.
  *
- * Returns the next free sprite index after finishing the loop.
+ * Modifies the sprite index in-place using a pointer.
  */
-uint8_t run_menu_loop(uint8_t sprite_idx);
+void run_menu_loop(uint8_t *sprite_idx);

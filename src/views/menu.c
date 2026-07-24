@@ -49,23 +49,44 @@ void load_menu(void) {
     SHOW_SPRITES;
 }
 
-void slide_down_logo(void) {
-    for (uint8_t sprite_idx = 0; sprite_idx <= 9; ++sprite_idx) {
-        for (uint8_t _ = 0; _ <= (sprite_idx < 4 ? 8 : 10); ++_) {
-            scroll_sprite(sprite_idx, 0, 4);
+void slide_down_logo(uint8_t distance_y, uint8_t speed,
+                     uint8_t start_sprite_idx, uint8_t end_sprite_idx) {
+    for (uint8_t current_sprite = start_sprite_idx;
+         current_sprite <= end_sprite_idx; ++current_sprite) {
+        uint8_t distance_moved = 0;
+        uint8_t target_distance = distance_y;
+
+        // Sprites 0-3 are the four indices used for the 16x16 kanji sprites 大
+        // and 蛇. Since the 8x8 character sprites are technically rendered as
+        // 8x16 sprites with the lower half blank, we must add the missing 8
+        // pixels to compensate.
+        if (current_sprite > 3)
+            target_distance += 8;
+
+        while (distance_moved < target_distance) {
+            uint8_t step = speed;
+
+            if (distance_moved + speed > target_distance)
+                step = target_distance - distance_moved;
+
+            scroll_sprite(current_sprite, 0, step);
+
+            distance_moved += step;
+
             vsync();
         }
     }
 }
 
-uint8_t run_menu_loop(uint8_t sprite_idx) {
+void run_menu_loop(uint8_t *sprite_idx) {
     draw_menu_background();
 
     // The starting x-position is 52, which allows the logo to be properly
     // centered. The starting y-position of the logo is 0 because we want to
     // slide the logo down after.
-    uint8_t current_sprite = draw_menu_logo(sprite_idx, 52, 0);
-    slide_down_logo();
+    uint8_t initial_sprite_idx = *sprite_idx;
+    *sprite_idx = draw_menu_logo(*sprite_idx, 52, 0);
+    slide_down_logo(32, 6, initial_sprite_idx, *sprite_idx);
 
     /* This loop should eventually break on certain conditions.
      * (For example, when the user enters a level.)
@@ -76,6 +97,4 @@ uint8_t run_menu_loop(uint8_t sprite_idx) {
     // while (1) {
     //     vsync();
     // }
-
-    return current_sprite;
 }
