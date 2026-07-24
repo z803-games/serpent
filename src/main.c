@@ -2,8 +2,6 @@
 
 #include <gb/cgb.h>
 #include <gb/gb.h>
-#include <gb/hardware.h>
-#include <gb/metasprites.h>
 #include <stdint.h>
 
 void main(void) {

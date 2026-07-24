@@ -5,12 +5,6 @@
 /** Load and draw the menu background map. */
 void load_menu_background(void);
 
-/** Load the 8x8 Yarara Font tiles as sprites. */
-void load_yarara_font_8x8(void);
-
-/** Load the Orochi Japanese 16x16 logo sprites. */
-void load_orochi_jp_16x16(void);
-
 /** Draw the menu background. */
 void draw_menu_background(void);
 

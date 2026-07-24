@@ -1,9 +1,22 @@
 #include "text.h"
+#include "fonts/orochi_jp_16x16.h"
 #include "fonts/yarara_font_8x8.h"
 
 #include <gb/gb.h>
 #include <gb/metasprites.h>
 #include <stdint.h>
+
+void load_yarara_font_8x8(void) {
+    set_sprite_data(FONT_1_BASE_TILE, yarara_font_8x8_TILE_COUNT,
+                    yarara_font_8x8_tiles);
+    set_sprite_palette(1, 1, yarara_font_8x8_palettes);
+}
+
+void load_orochi_jp_16x16(void) {
+    set_sprite_data(FONT_2_BASE_TILE, orochi_jp_16x16_TILE_COUNT,
+                    orochi_jp_16x16_tiles);
+    set_sprite_palette(1, 1, orochi_jp_16x16_palettes);
+}
 
 uint8_t get_glyph_index(char character) {
     uint8_t index;

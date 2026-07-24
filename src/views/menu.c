@@ -1,6 +1,5 @@
 #include "backgrounds/menu_background.h"
 #include "fonts/orochi_jp_16x16.h"
-#include "fonts/yarara_font_8x8.h"
 #include "utils/text.h"
 
 #include <gb/gb.h>
@@ -14,18 +13,6 @@ void load_menu_background(void) {
     set_bkg_palette(
         0, menu_background_PALETTE_COUNT,
         menu_background_palettes); // set palette 0 to the menu bkg palette
-}
-
-void load_yarara_font_8x8(void) {
-    set_sprite_data(FONT_1_BASE_TILE, yarara_font_8x8_TILE_COUNT,
-                    yarara_font_8x8_tiles);
-    set_sprite_palette(1, 1, yarara_font_8x8_palettes);
-}
-
-void load_orochi_jp_16x16(void) {
-    set_sprite_data(FONT_2_BASE_TILE, orochi_jp_16x16_TILE_COUNT,
-                    orochi_jp_16x16_tiles);
-    set_sprite_palette(1, 1, orochi_jp_16x16_palettes);
 }
 
 void draw_menu_background(void) {

@@ -12,6 +12,12 @@
 static const metasprite_t blank_metasprite[] = {
     METASPR_ITEM(-4, -4, 0, S_PAL(0)), METASPR_TERM};
 
+/** Load the 8x8 Yarara Font tiles as sprites. */
+void load_yarara_font_8x8(void);
+
+/** Load the Orochi Japanese 16x16 logo sprites. */
+void load_orochi_jp_16x16(void);
+
 /**
  * Get the sequential glyph index (0-based) of a character within the
  * font sheet.
